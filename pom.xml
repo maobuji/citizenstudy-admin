@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.citizen.study</groupId>
+    <artifactId>citizenstudy-admin</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- -->
+    <modules>
+        <module>citizenstudy-auth</module>
+        <module>citizenstudy-gateway</module>
+        <module>citizenstudy-center</module>
+        <module>citizenstudy-common</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compile.source>1.8</maven.compile.source>
+        <maven.compile.target>1.8</maven.compile.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--https://spring.io/projects/spring-cloud 查阅最新的版本-->
+            <!--https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.RELEASE</version>
+                <!--<version>Edgware.RELEASE</version>-->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--https://github.com/spring-cloud-incubator/spring-cloud-alibaba/blob/master/README-zh.md-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>0.2.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
