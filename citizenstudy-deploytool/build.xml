@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name="DEPLOY-TOOL" default="SHOWMESSAGE" basedir=".">
+    <target name="SHOWMESSAGE">
+        <echo message="自动化创建工程所依赖的环境"/>
+    </target>
+
+    <property file="${basedir}/buildconfig.properties" />
+
+    <target name="REALL">
+
+    </target>
+
+
+    <target name="reNacos">
+
+        <delete dir="${basedir}/deploy/nacosstand"/>
+        <mkdir dir="${basedir}/deploy/nacosstand"/>
+        <delete dir="${basedir}/deploy/tmp"/>
+        <mkdir dir="${basedir}/deploy/tmp"/>
+        <unzip src="${basedir}/depsoftware/nacos-server-1.0.0-RC2.zip" dest="${basedir}/deploy/tmp"/>
+        <copy todir="${basedir}/deploy/nacosstand">
+            <fileset dir="${basedir}/deploy/tmp/nacos">
+            </fileset>
+        </copy>
+        <delete dir="${basedir}/deploy/tmp"/>
+    </target>
+
+    <target name="replaceFile">
+        <delete dir="${basedir}/download/nacos"/>
+        <unzip src="${basedir}/download/${nacos-server-file-name}" dest="${basedir}/download/"/>
+
+        <delete dir="${basedir}/run-stand/bin"/>
+        <copy todir="${basedir}/run-stand/bin">
+            <fileset dir="${basedir}/download/nacos/bin">
+            </fileset>
+        </copy>
+
+        <delete dir="${basedir}/run-stand/plugins"/>
+        <copy todir="${basedir}/run-stand/plugins">
+            <fileset dir="${basedir}/download/nacos/plugins">
+            </fileset>
+        </copy>
+
+        <delete dir="${basedir}/run-stand/target"/>
+        <copy todir="${basedir}/run-stand/target">
+            <fileset dir="${basedir}/download/nacos/target">
+            </fileset>
+        </copy>
+
+    </target>
+
+</project>
