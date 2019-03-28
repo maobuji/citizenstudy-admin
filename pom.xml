@@ -30,8 +30,10 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
+                <!--<version>Finchley.RELEASE</version>-->
+
+                <!--目前最新版本，因为alibaba指定到Finchley，所以降低了版本-->
                 <version>Greenwich.RELEASE</version>
-                <!--<version>Edgware.RELEASE</version>-->
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
