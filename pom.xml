@@ -15,6 +15,7 @@
         <module>citizenstudy-gateway</module>
         <module>citizenstudy-center</module>
         <module>citizenstudy-common</module>
+        <module>citizenstudy-deploytool</module>
     </modules>
 
     <properties>
