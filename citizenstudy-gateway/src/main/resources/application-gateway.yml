@@ -1,4 +1,4 @@
-# 并非真正的配置文件，需要将这个配置文件放入到nacos中，
+# 并非真正的配置文件，需要将这个配置文件放入到nacos中
 info:
   app:
     name: "@project.artifactId@"
@@ -7,7 +7,7 @@ info:
       source: '@java.version@'
       target: '@java.version@'
 
-server:可以到
+server:
   port: 6888 # 应用启动端口
 
 spring:
