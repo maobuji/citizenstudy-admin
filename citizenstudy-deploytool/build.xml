@@ -13,7 +13,7 @@
     <target name="REALL" depends="reNacos,reMysql">
     </target>
 
-    <target name="reNacos">
+    <target name="reNacos" description="重新生成nacos">
         <delete dir="${basedir}/deploy/nacosstand"/>
         <mkdir dir="${basedir}/deploy/nacosstand"/>
         <delete dir="${basedir}/deploy/tmp"/>
@@ -24,9 +24,22 @@
             </fileset>
         </copy>
         <delete dir="${basedir}/deploy/tmp"/>
+
+        <!--写入数据库配置-->
+
+        <echo message="spring.datasource.platform=mysql" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="db.num=1" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="db.user=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="db.password=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
     </target>
 
-    <target name="reMysql">
+    <target name="reMysql" description="重新生成mysql">
         <delete dir="${basedir}/deploy/mysql"/>
         <mkdir dir="${basedir}/deploy/mysql"/>
         <unzip src="${basedir}/depsoftware/mysql-5.7.25-winx64-green.zip" dest="${basedir}/deploy/mysql"/>
