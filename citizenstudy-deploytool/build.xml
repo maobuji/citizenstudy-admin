@@ -4,10 +4,11 @@
         <echo message="自动化创建工程所依赖的环境"/>
     </target>
 
-    <property file="${basedir}/buildconfig.properties" />
+    <property file="${basedir}/buildconfig.properties"/>
+    <property name="mysql_driver_path" location="${basedir}/config/lib/mysql-connector-java-5.1.47.jar" />
 
     <path id="basedir.path">
-        <pathelement path="${basedir}" />
+        <pathelement path="${basedir}"/>
     </path>
 
     <target name="REALL" depends="reNacos,reMysql">
@@ -27,16 +28,23 @@
 
         <!--写入数据库配置-->
 
-        <echo message="spring.datasource.platform=mysql" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="spring.datasource.platform=mysql" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
         <echo message="db.num=1" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="db.user=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="db.password=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true" />
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
+        <echo message="db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true"
+              file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
+        <echo message="db.user=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
+        <echo message="db.password=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
+              append="true"/>
     </target>
 
     <target name="reMysql" description="重新生成mysql">
@@ -45,16 +53,22 @@
         <unzip src="${basedir}/depsoftware/mysql-5.7.25-winx64-green.zip" dest="${basedir}/deploy/mysql"/>
         <pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
         <replaceregexp byline="true">
-            <regexp pattern="basedir=.*" />
-            <substitution expression="basedir=${basedir.unix}/deploy/mysql" />
-            <fileset file="${basedir}/deploy/mysql/my.ini" />
+            <regexp pattern="basedir=.*"/>
+            <substitution expression="basedir=${basedir.unix}/deploy/mysql"/>
+            <fileset file="${basedir}/deploy/mysql/my.ini"/>
         </replaceregexp>
 
         <replaceregexp byline="true">
-            <regexp pattern="datadir=.*" />
-            <substitution expression="basedir=${basedir.unix}/deploy/mysql/data" />
-            <fileset file="${basedir}/deploy/mysql/my.ini" />
+            <regexp pattern="datadir=.*"/>
+            <substitution expression="basedir=${basedir.unix}/deploy/mysql/data"/>
+            <fileset file="${basedir}/deploy/mysql/my.ini"/>
         </replaceregexp>
+    </target>
+
+    <target name="initdb">
+        <echo message="Initializing test database... If error occurs,let it be." />
+        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/CREATE_DB.sql" encoding="UTF-8" onerror="continue" />
+        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/nacos_config" userid="root" password="root" src="${basedir}/deploy/nacosstand/conf/nacos-mysql.sql" encoding="UTF-8" onerror="continue" />
     </target>
 
 </project>
