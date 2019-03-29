@@ -22,10 +22,22 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compile.source>1.8</maven.compile.source>
         <maven.compile.target>1.8</maven.compile.target>
+
+
+        <mybatis.plus.version>3.1.0</mybatis.plus.version>
+        <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!--https://spring.io/projects/spring-cloud 查阅最新的版本-->
             <!--https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies-->
             <dependency>
@@ -47,6 +59,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

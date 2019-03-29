@@ -6,13 +6,14 @@
 
     <property file="${basedir}/buildconfig.properties" />
 
-    <target name="REALL">
+    <path id="basedir.path">
+        <pathelement path="${basedir}" />
+    </path>
 
+    <target name="REALL" depends="reNacos,reMysql">
     </target>
 
-
     <target name="reNacos">
-
         <delete dir="${basedir}/deploy/nacosstand"/>
         <mkdir dir="${basedir}/deploy/nacosstand"/>
         <delete dir="${basedir}/deploy/tmp"/>
@@ -25,28 +26,22 @@
         <delete dir="${basedir}/deploy/tmp"/>
     </target>
 
-    <target name="replaceFile">
-        <delete dir="${basedir}/download/nacos"/>
-        <unzip src="${basedir}/download/${nacos-server-file-name}" dest="${basedir}/download/"/>
+    <target name="reMysql">
+        <delete dir="${basedir}/deploy/mysql"/>
+        <mkdir dir="${basedir}/deploy/mysql"/>
+        <unzip src="${basedir}/depsoftware/mysql-5.7.25-winx64-green.zip" dest="${basedir}/deploy/mysql"/>
+        <pathconvert targetos="unix" property="basedir.unix" refid="basedir.path"/>
+        <replaceregexp byline="true">
+            <regexp pattern="basedir=.*" />
+            <substitution expression="basedir=${basedir.unix}/deploy/mysql" />
+            <fileset file="${basedir}/deploy/mysql/my.ini" />
+        </replaceregexp>
 
-        <delete dir="${basedir}/run-stand/bin"/>
-        <copy todir="${basedir}/run-stand/bin">
-            <fileset dir="${basedir}/download/nacos/bin">
-            </fileset>
-        </copy>
-
-        <delete dir="${basedir}/run-stand/plugins"/>
-        <copy todir="${basedir}/run-stand/plugins">
-            <fileset dir="${basedir}/download/nacos/plugins">
-            </fileset>
-        </copy>
-
-        <delete dir="${basedir}/run-stand/target"/>
-        <copy todir="${basedir}/run-stand/target">
-            <fileset dir="${basedir}/download/nacos/target">
-            </fileset>
-        </copy>
-
+        <replaceregexp byline="true">
+            <regexp pattern="datadir=.*" />
+            <substitution expression="basedir=${basedir.unix}/deploy/mysql/data" />
+            <fileset file="${basedir}/deploy/mysql/my.ini" />
+        </replaceregexp>
     </target>
 
 </project>
