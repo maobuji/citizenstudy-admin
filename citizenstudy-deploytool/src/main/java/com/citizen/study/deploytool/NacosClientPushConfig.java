@@ -19,15 +19,32 @@ import java.util.Properties;
 public class NacosClientPushConfig {
 
     public static void main(String[] args) throws Exception {
-
         ConfigService configService = getConfigService();
         String groupName = "Public";
+        List<File> configfiles = getConfigFiles();
+        publishConfig(configService, groupName, configfiles);
+    }
+
+    private static List<File> getConfigFiles() {
         String baseDir = getBaseDir();
 
         List<File> configfiles = new ArrayList<File>();
         // 发布网关文件
         configfiles.add(new File(baseDir + "/citizenstudy-gateway/src/main/resources/application-gateway.yml"));
+        // 发布auth文件
+        configfiles.add(new File(baseDir + "/citizenstudy-auth/src/main/resources/application-auth.yml"));
+        return configfiles;
+    }
 
+    public static ConfigService getConfigService() throws NacosException {
+        Properties properties = new Properties();
+        properties.put("serverAddr", "127.0.0.1:8848");
+        properties.put("contextPath", "nacos");
+        ConfigService configService = NacosFactory.createConfigService(properties);
+        return configService;
+    }
+
+    private static void publishConfig(ConfigService configService, String groupName, List<File> configfiles) throws Exception {
         for (File file : configfiles) {
             String content = readFileToString(file);
             boolean success = configService.publishConfig(file.getName(), groupName, content);
@@ -37,14 +54,9 @@ public class NacosClientPushConfig {
         }
     }
 
-    public static ConfigService getConfigService() throws NacosException {
-        Properties properties = new Properties();
-        properties.put("serverAddr", "127.0.0.1:8848");
-        properties.put("contextPath", "nacos");
-        ConfigService configService = NacosFactory.createConfigService(properties);
-        return configService;
 
-    }
+
+
 
     public static String getBaseDir() {
         String cruDir = NacosClientPushConfig.class.getResource("../../../../").getPath();

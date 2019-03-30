@@ -1,0 +1,19 @@
+# 并非真正的配置文件，需要将这个配置文件放入到nacos中
+
+server:
+  port: 5001 # 应用启动端口
+
+spring:
+   application:
+     name: cloudstudy-auth # 应用名，也是显示在注册中心的名字
+   cloud:
+     nacos:
+      discovery:
+         server-addr: 127.0.0.1:8848 # 注册中心地址
+info:
+  app:
+    name: "@project.artifactId@"
+    encoding: '@project.build.sourceEncoding@'
+    java:
+      source: '@java.version@'
+      target: '@java.version@'
