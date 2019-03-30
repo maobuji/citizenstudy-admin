@@ -26,25 +26,21 @@
         </copy>
         <delete dir="${basedir}/deploy/tmp"/>
 
-        <!--写入数据库配置-->
-
-        <echo message="spring.datasource.platform=mysql" file="${basedir}/deploy/nacosstand/conf/application.properties"
+        <!--为nacos添加数据库配置-->
+        <echo message="spring.datasource.platform=mysql${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
               append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
-              append="true"/>
-        <echo message="db.num=1" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
-              append="true"/>
-        <echo message="db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true"
+        <echo message="db.num=1${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="db.url.0=jdbc:mysql://127.0.0.1:3306/nacos?characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true{line.separator}"
               file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
-              append="true"/>
-        <echo message="db.user=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
-              append="true"/>
-        <echo message="db.password=root" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
-        <echo message="${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties"
-              append="true"/>
+        <echo message="db.user=root${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+        <echo message="db.password=root${line.separator}" file="${basedir}/deploy/nacosstand/conf/application.properties" append="true"/>
+
+        <!--改变nacos启动窗口名称-->
+        <replaceregexp byline="true">
+            <regexp pattern="@echo off"/>
+            <substitution expression="title nacos-1.0.0-RC2${line.separator}@echo off"/>
+            <fileset file="${basedir}/deploy/nacosstand/bin/startup.cmd"/>
+        </replaceregexp>
     </target>
 
     <target name="reMysql" description="重新生成mysql">
