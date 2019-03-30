@@ -12,6 +12,7 @@
 * 队列 待定<br>
 * 缓存 redis<br>
 * 数据库 mysql<br>
+* 安全 spring security<br>
 
 
 ###模块说明
