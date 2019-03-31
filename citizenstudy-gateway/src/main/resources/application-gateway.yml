@@ -20,4 +20,4 @@ spring:
      gateway:
        discovery:
          locator:
-           enabled: true # 路由根据注册中心的服务自动创建
+           enabled: true # 路由根据注册中心的服务名自动创建代理服务

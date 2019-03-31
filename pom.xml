@@ -16,6 +16,7 @@
         <module>citizenstudy-center</module>
         <module>citizenstudy-common</module>
         <module>citizenstudy-deploytool</module>
+        <module>citizenstudy-mybatisplus-generator</module>
     </modules>
 
     <properties>

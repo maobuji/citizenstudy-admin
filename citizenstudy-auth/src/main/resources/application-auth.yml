@@ -6,10 +6,19 @@ server:
 spring:
    application:
      name: cloudstudy-auth # 应用名，也是显示在注册中心的名字
+# 配置中心
    cloud:
      nacos:
       discovery:
-         server-addr: 127.0.0.1:8848 # 注册中心地址
+         server-addr: 127.0.0.1:8848
+
+# 数据库配置，暂时使用最简单的配置方式
+   datasource:
+     url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false
+     username: root
+     password: root
+     driver-class-name: com.mysql.jdbc.Driver
+
 info:
   app:
     name: "@project.artifactId@"
