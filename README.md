@@ -30,7 +30,7 @@
 2. (center)接入nacos的注册中心与配置中心
 3. (gateway)接入spring cloud gateway
 4. (citizenstudy-mybatisplus-generator）加入mybatis自动代码生成支持
-5. （auth）支持
+5. (auth)接入mybatisplus，并接入h2做自动化测试
 
 ### 系统初始化配置说明
 [点击这里](citizenstudy-deploytool/README.MD)
