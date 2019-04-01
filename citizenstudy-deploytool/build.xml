@@ -61,10 +61,15 @@
         </replaceregexp>
     </target>
 
-    <target name="initdb">
+    <target name="initNacosDB">
         <echo message="Initializing test database... If error occurs,let it be." />
-        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/CREATE_DB.sql" encoding="UTF-8" onerror="continue" />
+        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/CREATE_NACOS_DB.sql" encoding="UTF-8" onerror="continue" />
         <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/nacos_config" userid="root" password="root" src="${basedir}/deploy/nacosstand/conf/nacos-mysql.sql" encoding="UTF-8" onerror="continue" />
+    </target>
+
+    <target name="initMybatisTestDB">
+        <echo message="Initializing test database... If error occurs,let it be." />
+        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/MYBATIS_TEST_DB.sql" encoding="UTF-8" onerror="continue" />
     </target>
 
 </project>

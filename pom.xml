@@ -31,7 +31,7 @@
         <mybatis.plus.start.version>1.0.5</mybatis.plus.start.version>
         <mybatis.plus.version>3.1.0</mybatis.plus.version>
         <mysql.connection.version>5.1.47</mysql.connection.version>
-
+        <slf4j.api.version>1.7.26</slf4j.api.version>
     </properties>
 
     <dependencyManagement>
@@ -93,7 +93,11 @@
                 <version>${nacos.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.api.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
