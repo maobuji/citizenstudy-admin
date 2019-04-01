@@ -29,9 +29,16 @@
 1. (auth)提供多租户下的业务模型与接口
 2. (center)接入nacos的注册中心与配置中心
 3. (gateway)接入spring cloud gateway
+4. (citizenstudy-mybatisplus-generator）加入mybatis自动代码生成支持
+5. （auth）支持
 
 ### 系统初始化配置说明
 [点击这里](citizenstudy-deploytool/README.MD)
+
+
+### 项目协同工具（仅供内部开发人员使用）
+[项目管理-阿里云效](https://my.rdc.aliyun.com/)
+[在线设计-ProcessON](https://processon.com/)
 
 
 
