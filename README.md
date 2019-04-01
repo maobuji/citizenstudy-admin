@@ -31,7 +31,7 @@
 3. (gateway)接入spring cloud gateway
 
 ### 系统初始化配置说明
-[点击这里] (citizenstudy-deploytool/README.MD).
+[点击这里](citizenstudy-deploytool/README.MD)
 
 
 
