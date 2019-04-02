@@ -12,6 +12,14 @@
     <artifactId>citizenstudy-auth</artifactId>
 
     <dependencies>
+        <!--工程-->
+        <dependency>
+            <groupId>com.citizen.study</groupId>
+            <artifactId>citizenstudy-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--框架-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

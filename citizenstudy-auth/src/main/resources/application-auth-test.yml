@@ -1,4 +1,4 @@
-# 并非真正的配置文件，需要将这个配置文件放入到nacos中
+# 用于做持久层测试的配置文件
 spring:
    datasource:
         url: jdbc:h2:mem:testdb
