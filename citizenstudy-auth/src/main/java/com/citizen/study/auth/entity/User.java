@@ -1,4 +1,4 @@
-package com.citizen.study.auth.domain;
+package com.citizen.study.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 

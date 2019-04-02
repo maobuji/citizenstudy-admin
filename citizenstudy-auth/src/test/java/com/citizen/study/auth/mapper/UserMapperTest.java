@@ -2,20 +2,14 @@ package com.citizen.study.auth.mapper;
 
 import com.citizen.study.auth.AuthApplication;
 import com.citizen.study.auth.config.MybatisScanConfiguration;
-import com.citizen.study.auth.domain.User;
+import com.citizen.study.auth.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.annotation.Resource;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2019/4/2.

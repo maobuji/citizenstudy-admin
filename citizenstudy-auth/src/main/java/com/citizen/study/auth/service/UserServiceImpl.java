@@ -1,6 +1,6 @@
 package com.citizen.study.auth.service;
 
-import com.citizen.study.auth.domain.User;
+import com.citizen.study.auth.entity.User;
 import com.citizen.study.auth.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

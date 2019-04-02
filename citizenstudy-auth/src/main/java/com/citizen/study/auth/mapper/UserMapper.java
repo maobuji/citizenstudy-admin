@@ -1,7 +1,7 @@
 package com.citizen.study.auth.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.citizen.study.auth.domain.User;
+import com.citizen.study.auth.entity.User;
 
 /**
  * Created by Administrator on 2019/4/2.
