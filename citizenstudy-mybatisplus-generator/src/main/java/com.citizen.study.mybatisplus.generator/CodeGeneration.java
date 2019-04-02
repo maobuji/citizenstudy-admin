@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 public class CodeGeneration {
 
-    public static void aa(String[] args) {
+    public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -28,7 +28,7 @@ public class CodeGeneration {
         GlobalConfig gc = new GlobalConfig();
         final String projectPath = System.getProperty("user.dir");
         final String modulePath="citizenstudy-mybatisplus-generator";
-        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir(projectPath +"/"+ modulePath+"/src/main/java");
         gc.setAuthor("jobob");
         gc.setOpen(false);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
@@ -46,7 +46,7 @@ public class CodeGeneration {
         // 包配置
         final PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.baomidou.ant");
+        pc.setParent("com.citizen.study");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -93,10 +93,10 @@ public class CodeGeneration {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
+        strategy.setSuperEntityClass("com.citizen.study.common.BaseEntity");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
+        strategy.setSuperControllerClass("com.citizen.study.common.BaseController");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
