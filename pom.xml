@@ -28,8 +28,7 @@
 
         <nacos.version>1.0.0-RC2</nacos.version>
 
-        <mybatis.plus.start.version>1.0.5</mybatis.plus.start.version>
-        <mybatis.plus.version>3.1.0</mybatis.plus.version>
+        <mybatis.plus.start.version>3.1.0</mybatis.plus.start.version>
         <mysql.connection.version>5.1.47</mysql.connection.version>
         <slf4j.api.version>1.7.26</slf4j.api.version>
     </properties>
@@ -67,17 +66,11 @@
             </dependency>
 
 
-            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatisplus-spring-boot-starter -->
+            <!-- https://github.com/baomidou/mybatis-plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatisplus-spring-boot-starter</artifactId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.plus.start.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatis.plus.version}</version>
             </dependency>
 
             <dependency>
@@ -98,6 +91,15 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.api.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>1.4.199</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -1,0 +1,9 @@
+# 并非真正的配置文件，需要将这个配置文件放入到nacos中
+spring:
+   datasource:
+        url: jdbc:h2:mem:testdb
+        username: root
+        password: root
+        driver-class-name: org.h2.Driver
+        schema: classpath:db/schema.sql
+        data: classpath:db/data.sql
