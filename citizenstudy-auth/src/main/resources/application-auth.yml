@@ -14,7 +14,7 @@ spring:
 
 # 数据库配置，暂时使用最简单的配置方式
    datasource:
-     url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8&useSSL=false
+     url: jdbc:mysql://127.0.0.1:3306/auth?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false
      username: root
      password: root
      driver-class-name: com.mysql.jdbc.Driver

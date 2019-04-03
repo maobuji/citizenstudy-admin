@@ -72,4 +72,9 @@
         <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/MYBATIS_TEST_DB.sql" encoding="UTF-8" onerror="continue" />
     </target>
 
+    <target name="initServiceDB">
+        <echo message="Initializing test database... If error occurs,let it be." />
+        <sql autoCommit="true" classpath="${mysql_driver_path}" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/mysql" userid="root" password="root" src="${basedir}/config/dbscript/AUTH_DB.sql" encoding="UTF-8" onerror="continue" />
+    </target>
+
 </project>
