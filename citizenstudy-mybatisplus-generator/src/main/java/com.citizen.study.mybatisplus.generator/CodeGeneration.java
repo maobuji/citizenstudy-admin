@@ -100,7 +100,9 @@ public class CodeGeneration {
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
+        strategy.setFieldPrefix("F_");
+//        strategy.setTablePrefix(pc.getModuleName() + "_");
+        strategy.setTablePrefix("T_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

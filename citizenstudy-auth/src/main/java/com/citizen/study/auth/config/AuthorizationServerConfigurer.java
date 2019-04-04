@@ -16,6 +16,8 @@ import javax.sql.DataSource;
 
 /**
  * Created by Administrator on 2019/4/3.
+ *
+ * 参考代码https://github.com/babylikebird/Micro-Service-Skeleton/blob/master/mss-oauth/src/main/java/com/microservice/skeleton/auth/config/AuthorizationServerConfig.java
  */
 @Configuration
 @EnableAuthorizationServer
@@ -33,7 +35,9 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     }
 
     /**
-     * 用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化，你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。
+     * 用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化
+     * 你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息。这里采用了默认的存储数据库的方式
+     * 创表语句在这里https://github.com/spring-projects/spring-security-oauth/blob/master/spring-security-oauth2/src/test/resources/schema.sql
      * @param clients
      * @throws Exception
      */
