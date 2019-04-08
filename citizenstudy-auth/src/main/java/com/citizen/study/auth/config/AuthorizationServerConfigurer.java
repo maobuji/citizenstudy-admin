@@ -1,9 +1,13 @@
 package com.citizen.study.auth.config;
 
+import com.citizen.study.auth.error.MssWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -11,6 +15,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 
@@ -33,6 +40,17 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
     public ClientDetailsService clientDetails() {
         return new JdbcClientDetailsService(dataSource);
     }
+
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
+    @Bean
+    RedisTokenStore redisTokenStore(){
+        return new RedisTokenStore(redisConnectionFactory);
+    }
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     /**
      * 用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化
@@ -70,5 +88,24 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                 .authenticationManager(authenticationManager);
         endpoints.tokenServices(defaultTokenServices());
         endpoints.exceptionTranslator(webResponseExceptionTranslator());//认证异常翻译
+    }
+
+
+
+    @Bean
+    public WebResponseExceptionTranslator<OAuth2Exception> webResponseExceptionTranslator(){
+        return new MssWebResponseExceptionTranslator();
+    }
+
+    @Primary
+    @Bean
+    public DefaultTokenServices defaultTokenServices(){
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        tokenServices.setTokenStore(redisTokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setClientDetailsService(clientDetails());
+        tokenServices.setAccessTokenValiditySeconds(60*60*12); // token有效期自定义设置，默认12小时
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天，这里修改
+        return tokenServices;
     }
 }
