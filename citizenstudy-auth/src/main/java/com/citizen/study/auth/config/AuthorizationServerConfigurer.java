@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -14,12 +16,20 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import sun.security.util.SecurityConstants;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2019/4/3.
@@ -49,8 +59,6 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         return new RedisTokenStore(redisConnectionFactory);
     }
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     /**
      * 用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化
@@ -71,9 +79,13 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()");
-        security .checkTokenAccess("isAuthenticated()");
-        security.allowFormAuthenticationForClients();
+        security
+                // 允许表单认证请求
+                .allowFormAuthenticationForClients()
+                // spel表达式 访问公钥端点（/auth/token_key）需要认证
+                .tokenKeyAccess("isAuthenticated()")
+                // spel表达式 访问令牌解析端点（/auth/check_token）需要认证
+                .checkTokenAccess("isAuthenticated()");
     }
 
     /**
@@ -83,11 +95,17 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(redisTokenStore())
-                .userDetailsService(userDetailsService)
-                .authenticationManager(authenticationManager);
-        endpoints.tokenServices(defaultTokenServices());
-        endpoints.exceptionTranslator(webResponseExceptionTranslator());//认证异常翻译
+        // token增强链
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        // 把jwt增强，与额外信息增强加入到增强链
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
+        endpoints
+                .authenticationManager(authenticationManager)
+                .tokenStore(redisTokenStore())
+                .tokenEnhancer(tokenEnhancerChain)
+                .reuseRefreshTokens(false);
+        // 添加认证异常处理器
+        endpoints.exceptionTranslator(customWebResponseExceptionTranslator);
     }
 
 
@@ -99,13 +117,52 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     @Primary
     @Bean
-    public DefaultTokenServices defaultTokenServices(){
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(redisTokenStore());
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setClientDetailsService(clientDetails());
-        tokenServices.setAccessTokenValiditySeconds(60*60*12); // token有效期自定义设置，默认12小时
-        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);//默认30天，这里修改
-        return tokenServices;
+    public DefaultTokenServices defaultTokenServices()
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey(SecurityConstants.SIGN_KEY);
+        return jwtAccessTokenConverter;
     }
-}
+
+    /**
+     * jwt token增强，添加额外信息
+     * @return
+     */
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new TokenEnhancer() {
+            @Override
+            public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
+
+                // 添加额外信息的map
+                final Map<String, Object> additionMessage = new HashMap<String, Object>(2);
+                // 获取当前登录的用户
+                UserDetailsImpl user = (UserDetailsImpl) oAuth2Authentication.getUserAuthentication().getPrincipal();
+//                // 登录日志记UserDetailsImpl录
+//                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//                SysLogDTO sysLogDTO = new SysLogDTO();
+//                sysLogDTO
+//                        .setCreateBy(user.getUsername())
+//                        .setRequestUri(request.getRequestURI())
+//                        .setUserAgent(request.getHeader("user-agent"))
+//                        .setType(SysLogTypeEnum.LOGIN.getCode())
+//                        .setStatus(OperationStatusEnum.SUCCESS.getCode())
+//                        .setModuleName("auth认证模块")
+//                        .setActionName("登录")
+//                        .setServiceId(FisherServiceNameConstants.FISHER_AUTH)
+//                        .setRemoteAddr(UrlUtil.getRemoteHost(request))
+//                        .setMethod(request.getMethod());
+//                rabbitTemplate.convertAndSend(MqQueueNameConstant.SYS_LOG_QUEUE, sysLogDTO);
+//                log.info("当前用户为：{}", user);
+//                // 如果用户不为空 则把id放入jwt token中
+                if (user != null) {
+                    additionMessage.put(UserConstants.USER_ID, user.getUserId());
+                    additionMessage.put(UserConstants.USER_NAME, user.getUsername());
+                }
+                ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(additionMessage);
+                return oAuth2AccessToken;
+            }
+        };
+    }
+｝
