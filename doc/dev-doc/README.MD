@@ -17,6 +17,9 @@
 * [Spring Security Oauth2 之 核心架构配置](https://blog.csdn.net/wuzhiwei549/article/details/79815491)<br>
 * [oauth2 学习（一）-使用Apache oltu实现oauth2的授权服务器](https://zm8.sm-tc.cn/?src=l4uLj4zF0NCIiIjRnJGdk5CYjNGckJLQl4qekZiTlpHOz87Qno2LlpyTmozQx8zMy83Px9GXi5KT&uid=469e231a92162bde306f4675b5d1f269&hid=c61a3dc32d8e18ca8f4b5df7cbe6e532&pos=1&cid=9&time=1554376028752&from=click&restype=1&pagetype=0020000002000408&bu=ss_doc&query=Apache+oltu&mode=&v=1&force=true&wap=false&uc_param_str=dnntnwvepffrgibijbprsvdsdichei)<br>
 
+* [spring-security-oauth2 中优雅的扩展自定义(短信验证码)登录方式【Part-0】](https://www.jianshu.com/p/99552e456311)<br>
+* [spring-security-oauth2 中优雅的扩展自定义(短信验证码)登录方式【Part-End】](https://www.jianshu.com/p/b7a474446a4c)<br>
+* [Spring Security OAuth2 优雅的集成短信验证码登录以及第三方登录](https://segmentfault.com/a/1190000014371789)<br>
 
 ### DDD
 * [领域驱动设计（DDD）在美团点评业务系统的实践](https://blog.csdn.net/k6T9Q8XKs6iIkZPPIFq/article/details/78909897)<br>
