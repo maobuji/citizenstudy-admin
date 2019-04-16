@@ -19,6 +19,11 @@ spring:
      password: root
      driver-class-name: com.mysql.jdbc.Driver
 
+citizenstudy:
+    jwt:
+       sign-key: citizenstudy
+
+
 info:
   app:
     name: "@project.artifactId@"

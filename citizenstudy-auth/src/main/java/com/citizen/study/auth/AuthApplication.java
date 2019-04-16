@@ -16,5 +16,3 @@ public class AuthApplication {
         SpringApplication.run(AuthApplication.class, args);
     }
 }
-
-//https://github.com/SpringCloud/spring-cloud-gateway-nacos/
